@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<style>
+    h1 {
+        text-outline: black 2px;
+        font-family: "Courier New", courier, monospace;
+        font-weight: normal;
+    }
+
+    input {
+        border-radius: 7px;
+        display: block;
+        line-height: 30px;
+        border: none;
+        margin-top: 20px;
+        font-size: 18px;
+        font-family: "Courier New", courier, monospace;
+    }
+
+    #outer {
+        xborder-radius: 56px;
+        margin-top: 20px;
+        height: 770px;
+        width: 340px;
+        xbackground-image: url("../../static/images/drawing2.png");
+        text-align: center;
+        vertical-align: middle;
+        background-repeat: no-repeat;
+        background-size: 340px 770px;
+
+    }
+
+    #register {
+        display: inline;
+        vertical-align: middle;
+        text-align: center;
+        line-height: 14px;
+    }
+</style>
+<div id="outer">
+    <h1>CLEVER ChORD</h1>
+
+    <div id="opening">
+        <form id="register" method="post">
+            {% csrf_token %}
+            <input name="email" type="text" placeholder="Email" id="email">
+            <input name="password" type="password" placeholder="Password" id="password">
+            <input type="submit">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

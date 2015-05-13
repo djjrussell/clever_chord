@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>clever chord</title>
+</head>
+
+<body>
+<style>
+
+    h1 {
+        font-weight: normal;
+        font-size: 1.8em;
+        font-family: "Courier New", courier, monospace;
+    }
+
+    select {
+        font-family: "Courier New", courier, monospace;
+        font-size: 5em;
+        height: 5em;
+        line-height: 5em;
+    }
+
+    #inner {
+        margin-top: 0;
+        opacity: 1;
+        z-index: 100000;
+    }
+
+    #selectors {
+        xborder: 1px solid black;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: lightgrey;
+        width: 220px;
+    }
+
+    #outer {
+        position: absolute;
+        height: 770px;
+        width: 340px;
+        xbackground-image: url("../../static/images/drawing2.png");
+        background-repeat: no-repeat;
+        background-size: 265px 400px;
+        z-index: -1000;
+        xopacity: .5;
+
+    #text {
+        z-index: 1000;
+        opacity: 0;
+    }
+
+    #response {
+        font-weight: normal;
+        font-size: 1.3em;
+    }
+
+    #get_array {
+        font-size: 1.5em;
+    }
+
+    button {
+        margin: 0 auto;
+    }
+
+    #favorites {
+        font-family: "Courier New", courier, monospace;
+        font-size: 2em;
+        text-align: right;
+    }
+
+    #fav_button {
+        width: 50%;
+        float: right;
+    }
+
+    #response {
+        width: 50%;
+        float: left;
+    }
+</style>
+
+<div id="outer">
+    <div id="inner">
+        <div id="text">
+            <h1>Welcome {{ user.username }}</h1>
+
+            <h1>CLEVER ChORD</h1>
+
+            <div id="selectors">
+                <form method="post">
+                    <select name="note">
+                        <option></option>
+                        {% for note in notes %}
+                            <option>
+                                {{ note.letter }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <select name="type">
+                        <option></option>
+                        {% for type in types %}
+                            <option>
+                                {{ type.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit">
+                    {% csrf_token %}
+                </form>
+            </div>
+            {% if note %}
+                <pre>
+{{ response }}
+        <label>favorite</label><input type="checkbox" name="favorite" id="favorite"
+                                      {% if is_favorite %}checked{% endif %}>
+{{ note }} {{ ch_type }}
+is made of...
+    </pre>
+                <pre id="get_array">
+{{ get_array }}
+    </pre>
+            {% endif %}
+        </div>
+    </div>
+    <div id="favorites">
+        <a href="/rango/favorites/">
+            <button type="button" id="viewFav">view favorites</button>
+        </a>
+        <button type="button">random</button>
+        <a href="/rango/logout/">
+            <button type="button">log out</button>
+        </a>
+    </div>
+</div>
+<script>
+    var checkBox = document.getElementById("favorite")
+    var favoriting = function (formData) {
+        var myRequest = new XMLHttpRequest()
+        myRequest.open("POST", "/rango/add_favorite/");
+        myRequest.send(formData)
+    };var unfavoriting = function (formData) {
+        var myRequest = new XMLHttpRequest()
+        myRequest.open("POST", "/rango/del_favorite/");
+        myRequest.send(formData)
+    };
+
+    checkBox.addEventListener("click", function (event) {
+        var formData = new FormData();
+        formData.append("note", "{{ note | safe}}");
+        formData.append("ch_type", "{{ ch_type | safe}}");
+        formData.append("checked", this.checked);
+        console.log(formData);
+        if(checkBox.checked){
+            favoriting(formData)
+        }
+        else{
+            unfavoriting(formData);
+        }
+    });
+</script>
+</body>
+</html>
