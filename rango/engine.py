@@ -50,7 +50,7 @@ class Chord():
 
 
     def major_seven(self,note_name):
-        return self.get_generic(note_name, [0, 4, 7, 10])
+        return self.get_generic(note_name, [0, 4, 7, 11])
 
 
     def minor(self,note_name):
@@ -58,7 +58,7 @@ class Chord():
 
 
     def minor_seven(self,note_name):
-        return self.get_generic(note_name, [0, 3, 7, 10])
+        return self.get_generic(note_name, [0, 3, 7, 11])
 
 
     def augmented(self,note_name):
